@@ -11,6 +11,12 @@ class TestTrie(unittest.TestCase):
         self.assertIsNone(node.data)
         self.assertEqual(len(node.children), 0)
 
+    def test_has_data(self):
+        node = Node()
+        self.assertFalse(node.has_data())
+        node.data = 1
+        self.assertTrue(node.has_data())
+
     def test_init(self):
         trie = Trie()
 
