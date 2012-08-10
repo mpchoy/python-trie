@@ -27,6 +27,10 @@ class Trie:
         node.data = data
 
     def get( self, key ):
+        """Retrieve the data referenced by the key.
+        Returns:
+        The key's data, if it exists. Else, return None.
+        """
         node = self.root
 
         for k in key:
@@ -56,6 +60,7 @@ class Trie:
         node.data = None
         while trail:
             prev = trail.pop()
-            if not prev.children[key[len(trail)]].children:
-                del prev.children[key[len(trail)]]
+            k = key[len(trail)]
+            if not prev.children[k].children:
+                del prev.children[k]
         return data
