@@ -148,7 +148,8 @@ class TestTrie(unittest.TestCase):
         trie.insert( key_a, data_a )
 
         matches = trie.match_prefix('a')
-        self.assertEqual(len(matches), 0)
+        self.assertEqual(len(matches), 1)
+        self.assertTrue(key_a in matches)
 
         matches = trie.match_prefix('z')
         self.assertEqual(len(matches), 0)
@@ -169,13 +170,15 @@ class TestTrie(unittest.TestCase):
         trie.insert( key_ate, data_ate )
 
         matches = trie.match_prefix('at')
-        self.assertEqual(len(matches), 1)
-        self.assertTrue(key_ate in matches)
-
-        matches = trie.match_prefix('a')
         self.assertEqual(len(matches), 2)
         self.assertTrue(key_ate in matches)
         self.assertTrue(key_at in matches)
+
+        matches = trie.match_prefix('a')
+        self.assertEqual(len(matches), 3)
+        self.assertTrue(key_ate in matches)
+        self.assertTrue(key_at in matches)
+        self.assertTrue(key_a in matches)
 
     def test_match_prefix_3(self):
         trie = Trie()
@@ -186,6 +189,21 @@ class TestTrie(unittest.TestCase):
         data_at = '@'
         data_absent = ''
         trie.insert( key_a, data_a )
+        trie.insert( key_at, data_at )
+        trie.insert( key_absent, data_absent )
+
+        matches = trie.match_prefix('a')
+        self.assertEqual(len(matches), 3)
+        self.assertTrue(key_a in matches)
+        self.assertTrue(key_at in matches)
+        self.assertTrue(key_absent in matches)
+
+    def test_match_prefix_4(self):
+        trie = Trie()
+        key_at = 'at'
+        key_absent = 'absent'
+        data_at = '@'
+        data_absent = ''
         trie.insert( key_at, data_at )
         trie.insert( key_absent, data_absent )
 

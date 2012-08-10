@@ -76,7 +76,6 @@ class Trie:
         matches = []
         self._match_prefix_r( prefix_root, matches, prefix )
 
-        matches.remove(prefix)
         return matches
 
     def _match_prefix_r( self, node, matches, match ):
