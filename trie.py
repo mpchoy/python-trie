@@ -66,3 +66,22 @@ class Trie:
             if not prev.children[k].children:
                 del prev.children[k]
         return data
+
+    def match_prefix( self, prefix ):
+        prefix_root = self._get_node( prefix )
+
+        if prefix_root is None:
+            return []
+
+        matches = []
+        self._match_prefix_r( prefix_root, matches, prefix )
+
+        matches.remove(prefix)
+        return matches
+
+    def _match_prefix_r( self, node, matches, match ):
+        for key, child in node.children.iteritems():
+            self._match_prefix_r( child, matches, match+key )
+        if node.data is not None:
+            matches.append( match )
+        return

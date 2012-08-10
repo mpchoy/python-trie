@@ -37,7 +37,7 @@ class TestTrie(unittest.TestCase):
 
     def test_insert_on_empty_longer(self):
         trie = Trie()
-        key = 'abstentia'
+        key = 'absentia'
         data = 'Must be present to win'
         trie.insert( key, data )
         self.assertIsNone(trie.get('a'))
@@ -127,6 +127,72 @@ class TestTrie(unittest.TestCase):
         self.assertIsNone(trie.get(key_a))
 
         self.assertEqual(trie.get(key_ate), data_ate)
+
+    def test_match_prefix_0(self):
+        trie = Trie()
+
+        matches = trie.match_prefix('a')
+        self.assertEqual(len(matches), 0)
+
+        matches = trie.match_prefix('z')
+        self.assertEqual(len(matches), 0)
+
+        matches = trie.match_prefix('abracadabra')
+        self.assertEqual(len(matches), 0)
+
+    def test_match_prefix_1(self):
+        trie = Trie()
+        key_a = 'a'
+        data_a = 0
+
+        trie.insert( key_a, data_a )
+
+        matches = trie.match_prefix('a')
+        self.assertEqual(len(matches), 0)
+
+        matches = trie.match_prefix('z')
+        self.assertEqual(len(matches), 0)
+
+        matches = trie.match_prefix('abracadabra')
+        self.assertEqual(len(matches), 0)
+
+    def test_match_prefix_2(self):
+        trie = Trie()
+        key_a = 'a'
+        key_at = 'at'
+        key_ate = 'ate'
+        data_a = 'is for apple'
+        data_at = '@'
+        data_ate = 'a verb in past tense'
+        trie.insert( key_a, data_a )
+        trie.insert( key_at, data_at )
+        trie.insert( key_ate, data_ate )
+
+        matches = trie.match_prefix('at')
+        self.assertEqual(len(matches), 1)
+        self.assertTrue(key_ate in matches)
+
+        matches = trie.match_prefix('a')
+        self.assertEqual(len(matches), 2)
+        self.assertTrue(key_ate in matches)
+        self.assertTrue(key_at in matches)
+
+    def test_match_prefix_3(self):
+        trie = Trie()
+        key_a = 'a'
+        key_at = 'at'
+        key_absent = 'absent'
+        data_a = 'is for apple'
+        data_at = '@'
+        data_absent = ''
+        trie.insert( key_a, data_a )
+        trie.insert( key_at, data_at )
+        trie.insert( key_absent, data_absent )
+
+        matches = trie.match_prefix('a')
+        self.assertEqual(len(matches), 2)
+        self.assertTrue(key_at in matches)
+        self.assertTrue(key_absent in matches)
 
 
 if __name__ == '__main__':
