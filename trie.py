@@ -30,14 +30,17 @@ class Trie:
         Returns:
         The key's data, if it exists. Else, return None.
         """
+        node = self._get_node(key)
+        return node.data if node else None
+
+    def _get_node( self, key ):
         node = self.root
 
         for k in key:
             if k not in node.children:
                 return None
             node = node.children[k]
-
-        return node.data
+        return node
 
     def remove( self, key ):
         """Removes the key.
