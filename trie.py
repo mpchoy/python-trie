@@ -92,3 +92,32 @@ class Trie:
         for k, child in node.children.iteritems():
             self._match_prefix_r( child, matches, match+k )
         return
+
+
+if __name__ == '__main__':
+    trie = Trie()
+    f = open('trie.dict', 'r')
+
+    for line in f:
+        tokens = [ x.strip() for x in line.split(':') ]
+        trie.insert( tokens[0], tokens[1] )
+
+    f.close()
+
+    while True:
+        search_for = raw_input("Please search a word or type exit: ")
+        search_for = search_for.strip()
+
+        if search_for == "exit":
+            break
+
+        data = trie.get(search_for)
+        if data is not None:
+            print "The data is: " + str(data)
+        else:
+            print "Sorry, your word was not found."
+
+        matches = trie.match_prefix( search_for )
+        matches.remove( search_for )
+        if matches:
+            print "Some prefix matches:" + str(matches)
