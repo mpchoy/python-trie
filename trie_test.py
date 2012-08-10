@@ -6,8 +6,8 @@ from trie import Trie
 class TestTrie(unittest.TestCase):
 
     def test_init_node(self):
-        node = Node('a')
-        self.assertEqual(node.key, 'a')
+        node = Node()
+        self.assertIsNone(node.data)
         self.assertEqual(len(node.children), 0)
 
     def test_init(self):

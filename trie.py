@@ -1,12 +1,11 @@
 class Node:
     """A Trie node"""
-    def __init__( self, key ):
-        self.key = key # TODO remove
+    def __init__( self ):
         self.children = {}
         self.data = None
 
     def __str__( self ):
-        print "<" + self.key + ">"
+        print "<" + self.data + ">"
 
 
 class Trie:
@@ -15,14 +14,14 @@ class Trie:
     Keys must be orderable.
     """
     def __init__( self ):
-        self.root = Node( '' )
+        self.root = Node()
 
     def insert( self, key, data ):
         node = self.root
         i = 0
         for k in key:
             if k not in node.children:
-                node.children[k] = Node( k )
+                node.children[k] = Node()
             node = node.children[k]
         node.data = data
 
