@@ -4,6 +4,7 @@ from trie import Node
 from trie import Trie
 
 class TestTrie(unittest.TestCase):
+    # TODO don't forget to try numbers
 
     def test_init_node(self):
         node = Node()
@@ -53,6 +54,21 @@ class TestTrie(unittest.TestCase):
         self.assertEqual(trie.get('ab'), ab_data)
         self.assertEqual(trie.get('ax'), ax_data)
 
+    def test_insert_overlap(self):
+        trie = Trie()
+        key_a = 'a'
+        key_at = 'at'
+        key_ate = 'ate'
+        data_a = 'is for apple'
+        data_at = '@'
+        data_ate = 'a verb in past tense'
+        trie.insert( key_a, data_a )
+        trie.insert( key_at, data_at )
+        trie.insert( key_ate, data_ate )
+        self.assertEqual(trie.get(key_a), data_a)
+        self.assertEqual(trie.get(key_at), data_at)
+        self.assertEqual(trie.get(key_ate), data_ate)
+
     def test_remove_on_empty(self):
         trie = Trie()
         self.assertIsNone(trie.remove('a'))
@@ -89,7 +105,28 @@ class TestTrie(unittest.TestCase):
         self.assertIsNone(trie.get(key1))
         self.assertEqual(trie.get(key2), data2)
 
-    # TODO don't forget to try numbers
+    def test_remove_overlap(self):
+        trie = Trie()
+        key_a = 'a'
+        key_at = 'at'
+        key_ate = 'ate'
+        data_a = 'is for apple'
+        data_at = '@'
+        data_ate = 'a verb in past tense'
+        trie.insert( key_a, data_a )
+        trie.insert( key_at, data_at )
+        trie.insert( key_ate, data_ate )
+
+        trie.remove(key_at)
+        self.assertIsNone(trie.get(key_at))
+
+        self.assertEqual(trie.get(key_a), data_a)
+        self.assertEqual(trie.get(key_ate), data_ate)
+
+        trie.remove(key_a)
+        self.assertIsNone(trie.get(key_a))
+
+        self.assertEqual(trie.get(key_ate), data_ate)
 
 
 if __name__ == '__main__':
