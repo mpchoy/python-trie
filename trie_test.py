@@ -53,6 +53,42 @@ class TestTrie(unittest.TestCase):
         self.assertEqual(trie.get('ab'), ab_data)
         self.assertEqual(trie.get('ax'), ax_data)
 
+    def test_remove_on_empty(self):
+        trie = Trie()
+        self.assertIsNone(trie.remove('a'))
+        self.assertIsNone(trie.remove('z'))
+        self.assertIsNone(trie.remove('abracadabra'))
+
+    def test_remove_1(self):
+        trie = Trie()
+        key = 'a'
+        data = 123
+        trie.insert( key, data )
+        self.assertIsNotNone(trie.get(key))
+        self.assertEqual(trie.remove(key), data)
+        self.assertIsNone(trie.get(key))
+
+    def test_remove_long(self):
+        trie = Trie()
+        key = 'abc'
+        data = 123
+        trie.insert( key, data )
+        self.assertIsNotNone(trie.get(key))
+        self.assertEqual(trie.remove(key), data)
+        self.assertIsNone(trie.get(key))
+
+    def test_remove_one_but_not_both(self):
+        trie = Trie()
+        key1 = 'abc'
+        key2 = 'abd'
+        data1 = 123
+        data2 = 987
+        trie.insert( key1, data1 )
+        trie.insert( key2, data2 )
+        self.assertEqual(trie.remove(key1), data1)
+        self.assertIsNone(trie.get(key1))
+        self.assertEqual(trie.get(key2), data2)
+
     # TODO don't forget to try numbers
 
 

@@ -35,3 +35,27 @@ class Trie:
             node = node.children[k]
 
         return node.data
+
+    def remove( self, key ):
+        """Removes the key.
+        Also removes orphan nodes.
+        Returns:
+        The key's data, if it exists. Else, return None.
+        """
+        node = self.root
+        trail = []
+
+        for k in key:
+            if k not in node.children:
+                return None
+
+            trail.append( node )
+            node = node.children[k]
+
+        data = node.data
+        node.data = None
+        while trail:
+            prev = trail.pop()
+            if not prev.children[key[len(trail)]].children:
+                del prev.children[key[len(trail)]]
+        return data
