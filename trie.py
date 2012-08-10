@@ -7,9 +7,6 @@ class Node:
     def has_data( self ):
         return self.data is not None
 
-    def __str__( self ):
-        print "<" + self.data + ">"
-
 
 class Trie:
     """
@@ -21,6 +18,7 @@ class Trie:
         self.root = Node()
 
     def insert( self, key, data=0 ):
+        """Insert the key with the given data"""
         node = self.root
         i = 0
         for k in key:
@@ -38,10 +36,6 @@ class Trie:
         return node.data if node else None
 
     def _get_node( self, key ):
-        """Retrieve the node referenced by the key.
-        Returns:
-        The key's node, if it exists. Else, return None.
-        """
         node = self.root
 
         for k in key:
@@ -77,6 +71,11 @@ class Trie:
         return data
 
     def match_prefix( self, prefix ):
+        """Find all strings that match given prefix.
+        If prefix itself is in the trie, will include it in the results.
+        Returns:
+        A list of words matching the prefix.
+        """
         prefix_root = self._get_node( prefix )
 
         if prefix_root is None:
