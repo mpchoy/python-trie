@@ -149,9 +149,8 @@ class TestTrie(unittest.TestCase):
     def test_match_prefix_1(self):
         trie = Trie()
         key_a = 'a'
-        data_a = 0
 
-        trie.insert( key_a, data_a )
+        trie.insert( key_a )
 
         matches = trie.match_prefix('a')
         self.assertEqual(len(matches), 1)
@@ -168,12 +167,9 @@ class TestTrie(unittest.TestCase):
         key_a = 'a'
         key_at = 'at'
         key_ate = 'ate'
-        data_a = 'is for apple'
-        data_at = '@'
-        data_ate = 'a verb in past tense'
-        trie.insert( key_a, data_a )
-        trie.insert( key_at, data_at )
-        trie.insert( key_ate, data_ate )
+        trie.insert( key_a )
+        trie.insert( key_at )
+        trie.insert( key_ate )
 
         matches = trie.match_prefix('at')
         self.assertEqual(len(matches), 2)
@@ -191,12 +187,9 @@ class TestTrie(unittest.TestCase):
         key_a = 'a'
         key_at = 'at'
         key_absent = 'absent'
-        data_a = 'is for apple'
-        data_at = '@'
-        data_absent = ''
-        trie.insert( key_a, data_a )
-        trie.insert( key_at, data_at )
-        trie.insert( key_absent, data_absent )
+        trie.insert( key_a )
+        trie.insert( key_at )
+        trie.insert( key_absent )
 
         matches = trie.match_prefix('a')
         self.assertEqual(len(matches), 3)
@@ -208,15 +201,76 @@ class TestTrie(unittest.TestCase):
         trie = Trie()
         key_at = 'at'
         key_absent = 'absent'
-        data_at = '@'
-        data_absent = ''
-        trie.insert( key_at, data_at )
-        trie.insert( key_absent, data_absent )
+        trie.insert( key_at )
+        trie.insert( key_absent )
 
         matches = trie.match_prefix('a')
         self.assertEqual(len(matches), 2)
         self.assertTrue(key_at in matches)
         self.assertTrue(key_absent in matches)
+
+    def test_search_1(self):
+        trie = Trie()
+        key = "at"
+        trie.insert( key )
+
+        matches = trie.search( "ax", 1 )
+        self.assertEqual(len(matches), 1)
+        self.assertTrue(key in matches)
+
+    def test_search_2(self):
+        trie = Trie()
+        key_at = "at"
+        key_as = "as"
+        trie.insert( key_at )
+        trie.insert( key_as )
+
+        matches = trie.search( "ax", 1 )
+        self.assertEqual(len(matches), 2)
+        self.assertTrue(key_at in matches)
+        self.assertTrue(key_as in matches)
+
+    def test_search_3(self):
+        trie = Trie()
+        key = "ate"
+        trie.insert( key )
+
+        matches = trie.search( "at", 1 )
+        self.assertEqual(len(matches), 1)
+        self.assertTrue(key in matches)
+
+    def test_search_4(self):
+        trie = Trie()
+        key = "at"
+        trie.insert( key )
+
+        matches = trie.search( "ate", 1 )
+        self.assertEqual(len(matches), 1)
+        self.assertTrue(key in matches)
+
+    def test_search_5(self):
+        trie = Trie()
+        key_ace = "ace"
+        key_ate = "ate"
+        trie.insert( key_ace )
+        trie.insert( key_ate )
+
+        matches = trie.search( "axe", 1 )
+        self.assertEqual(len(matches), 2)
+        self.assertTrue(key_ace in matches)
+        self.assertTrue(key_ate in matches)
+
+    def test_search_6(self):
+        trie = Trie()
+        key = "ate"
+        trie.insert( key )
+
+        matches = trie.search( "any", 2 )
+        self.assertEqual(len(matches), 1)
+        self.assertTrue(key in matches)
+
+        matches = trie.search( "any", 1 )
+        self.assertEqual(len(matches), 0)
 
 
 if __name__ == '__main__':

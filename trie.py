@@ -93,6 +93,30 @@ class Trie:
             self._match_prefix_r( child, matches, match+k )
         return
 
+    def search( self, key, max_cost ):
+        first_row = range( len(key) + 1 )
+        matches = []
+# TODO guard against non-found first key
+        self._search_r( key, max_cost, self.root.children[key[0]], first_row, matches, key[0] )
+        return matches
+
+    def _search_r( self, key, max_cost, node, prev_row, matches, match ):
+        columns = len(prev_row)
+        row = [ prev_row[0] + 1 ]
+        for i in range(1, columns):
+            if match[-1] == key[i-1]:
+                row.append( prev_row[i-1] )
+            else:
+                row.append( min(row[i-1], prev_row[i-1], prev_row[i]) + 1 )
+
+        if node.has_data() and row[-1] <= max_cost:
+            matches.append( match )
+
+        for k, child in node.children.iteritems():
+            self._search_r( key, max_cost, child, row, matches, match+k )
+
+        return
+
 
 if __name__ == '__main__':
     trie = Trie()
