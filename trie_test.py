@@ -272,6 +272,27 @@ class TestTrie(unittest.TestCase):
         matches = trie.search( "any", 1 )
         self.assertEqual(len(matches), 0)
 
+    def test_search_7(self):
+        trie = Trie()
+        key = "tea"
+        trie.insert( key )
+
+        matches = trie.search( "pea", 1 )
+        self.assertEqual(len(matches), 1)
+        self.assertTrue(key in matches)
+
+    def test_search_8(self):
+        trie = Trie()
+        key_tea = "tea"
+        key_pet = "pet"
+        trie.insert( key_tea )
+        trie.insert( key_pet )
+
+        matches = trie.search( "pea", 1 )
+        self.assertEqual(len(matches), 2)
+        self.assertTrue(key_tea in matches)
+        self.assertTrue(key_pet in matches)
+
 
 if __name__ == '__main__':
     unittest.main()
