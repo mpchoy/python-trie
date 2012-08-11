@@ -146,6 +146,18 @@ if __name__ == '__main__':
             print "Sorry, your word was not found."
 
         matches = trie.match_prefix( search_for )
-        matches.remove( search_for )
+        try:
+            matches.remove( search_for )
+        except ValueError:
+            pass 
+
         if matches:
             print "Some prefix matches:" + str(matches)
+
+        lev_matches = trie.search( search_for, 2 )
+        try:
+            lev_matches.remove( search_for )
+        except ValueError:
+            pass 
+        if lev_matches:
+            print "Or did you mean:" + str(lev_matches)
